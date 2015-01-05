@@ -1,5 +1,5 @@
 Name:           ffms2
-Version:        2.19
+Version:        2.20
 Release:        1%{?dist}
 License:        MIT
 Summary:        Wrapper library around libffmpeg
@@ -72,5 +72,8 @@ rm -rf %{buildroot}%{_docdir}
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Mon Jan  5 2015 Ivan Epifanov <isage.dna@gmail.com> - 2.20-1.R
+- Update to 2.20
+
 * Fri Mar 28 2014 Ivan Epifanov <isage.dna@gmail.com> - 2.19-1.R
 - Initial spec for Fedora
