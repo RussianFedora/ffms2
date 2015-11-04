@@ -1,5 +1,5 @@
 Name:           ffms2
-Version:        2.21
+Version:        2.22
 Release:        1%{?dist}
 License:        MIT
 Summary:        Wrapper library around libffmpeg
@@ -72,6 +72,9 @@ rm -rf %{buildroot}%{_docdir}
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Wed Nov 04 2015 Vasiliy N. Glazov <vascom2@gmail.com> 2.22-1.R
+- Update to 2.22
+
 * Sun Jun 28 2015 Ivan Epifanov <isage.dna@gmail.com> - 2.21-1.R
 - Update to 2.21
 
