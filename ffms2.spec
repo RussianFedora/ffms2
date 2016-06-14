@@ -1,6 +1,6 @@
 Name:           ffms2
 Version:        2.22
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        MIT
 Summary:        Wrapper library around libffmpeg
 Url:            https://github.com/FFMS/ffms2/
@@ -72,6 +72,9 @@ rm -rf %{buildroot}%{_docdir}
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Tue Jun 14 2016 Arkady L. Shane <ashejn@russianfedora.pro> - 2.2-2.R
+- rebuilt against new ffmpeg
+
 * Wed Nov 04 2015 Vasiliy N. Glazov <vascom2@gmail.com> 2.22-1.R
 - Update to 2.22
 
