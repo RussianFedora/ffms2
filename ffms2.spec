@@ -1,21 +1,20 @@
 Name:           ffms2
 Version:        2.22
-Release:        2%{?dist}
+Release:        3%{?dist}
 License:        MIT
 Summary:        Wrapper library around libffmpeg
-Url:            https://github.com/FFMS/ffms2/
-Group:          System Environment/Libraries
-Source0:        https://github.com/FFMS/%{name}/archive/%{version}.tar.gz
+URL:            https://github.com/FFMS/ffms2
+Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
+
+BuildRequires:  gcc
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  libtool
-BuildRequires:  pkgconfig
-BuildRequires:  pkgconfig(libavcodec)
 BuildRequires:  pkgconfig(libavformat)
-BuildRequires:  pkgconfig(libavutil)
-BuildRequires:  pkgconfig(libpostproc)
+BuildRequires:  pkgconfig(libavcodec)
 BuildRequires:  pkgconfig(libswscale)
-BuildRequires:  pkgconfig(zlib)
+BuildRequires:  pkgconfig(libavutil)
+BuildRequires:  zlib-devel
 
 %description
 FFmpegSource (usually known as FFMS or FFMS2) is a cross-platform wrapper
@@ -23,17 +22,8 @@ library around libffmpeg, plus some additional components to deal with file
 formats libavformat has (or used to have) problems with.
 
 %package devel
-Summary:        Development package for ffms2
-Group:          Development/Libraries
-Requires:       %{name}%{?_isa} = %{version}-%{release}
-Requires:  pkgconfig
-Requires:  pkgconfig(libavcodec)
-Requires:  pkgconfig(libavformat)
-Requires:  pkgconfig(libavutil)
-Requires:  pkgconfig(libpostproc)
-Requires:  pkgconfig(libswscale)
-Requires:  pkgconfig(zlib)
-
+Summary:        Development package for %{name}
+Requires:       %{name}%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %description devel
 FFmpegSource (usually known as FFMS or FFMS2) is a cross-platform wrapper
@@ -41,15 +31,13 @@ library around libffmpeg, plus some additional components to deal with file
 formats libavformat has (or used to have) problems with.
 
 %prep
-%setup -q -n %{name}-%{version}
+%autosetup
 sed -i 's/\r$//' COPYING
 
 %build
-#autoreconf -fi
-%configure --disable-static --enable-shared
-sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
-sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
-make %{?_smp_mflags}
+autoreconf -vfi
+%configure --disable-static --disable-silent-rules
+%make_build
 
 %install
 %make_install
@@ -61,7 +49,8 @@ rm -rf %{buildroot}%{_docdir}
 %postun -p /sbin/ldconfig
 
 %files
-%doc COPYING README.md
+%license COPYING
+%doc README.md
 %{_bindir}/ffmsindex
 %{_libdir}/lib%{name}.so.*
 
@@ -72,17 +61,20 @@ rm -rf %{buildroot}%{_docdir}
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
-* Tue Jun 14 2016 Arkady L. Shane <ashejn@russianfedora.pro> - 2.2-2.R
+* Tue Aug 30 2016 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 2.22-3
+- Couple of trivial fixes
+
+* Tue Jun 14 2016 Arkady L. Shane <ashejn@russianfedora.pro> - 2.2-2
 - rebuilt against new ffmpeg
 
-* Wed Nov 04 2015 Vasiliy N. Glazov <vascom2@gmail.com> 2.22-1.R
+* Wed Nov 04 2015 Vasiliy N. Glazov <vascom2@gmail.com> 2.22-1
 - Update to 2.22
 
-* Sun Jun 28 2015 Ivan Epifanov <isage.dna@gmail.com> - 2.21-1.R
+* Sun Jun 28 2015 Ivan Epifanov <isage.dna@gmail.com> - 2.21-1
 - Update to 2.21
 
-* Mon Jan  5 2015 Ivan Epifanov <isage.dna@gmail.com> - 2.20-1.R
+* Mon Jan  5 2015 Ivan Epifanov <isage.dna@gmail.com> - 2.20-1
 - Update to 2.20
 
-* Fri Mar 28 2014 Ivan Epifanov <isage.dna@gmail.com> - 2.19-1.R
+* Fri Mar 28 2014 Ivan Epifanov <isage.dna@gmail.com> - 2.19-1
 - Initial spec for Fedora
